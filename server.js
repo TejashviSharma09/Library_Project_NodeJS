@@ -2,7 +2,8 @@
 // if (process.env.NODE_ENV !== 'production') {
 //     require('dotenv').parse()
 // }
-require('dotenv')
+// require('dotenv')
+require('dotenv').config()
 
 
 
@@ -26,7 +27,7 @@ app.use(express.static('public'))
 
 const mongoose = require('mongoose')
 // mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true,  }) // This throws error
-mongoose.connect('mongodb://localhost:27017/library', { useNewUrlParser: true,  })
+mongoose.connect( process.env.DATABASE_URL, { useNewUrlParser: true,  })
 
 // To check that we are connected to the DB or not
 const db = mongoose.connection
