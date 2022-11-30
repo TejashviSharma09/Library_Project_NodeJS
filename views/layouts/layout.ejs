@@ -7,10 +7,10 @@
     <title>Library Project</title>
 </head>
 <body>
-    Before
-    <br>
+    <!-- Including the header partial. -->
+    <%- include('../partials/header.ejs') %>
+    <%- include('../partials/errorMessage.ejs') %>
+
     <%- body %>     <!-- All our VIEWS will come here. -->
-    <br>
-    After
 </body>
 </html>

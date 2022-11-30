@@ -8,11 +8,15 @@ require('dotenv').config()
 
 
 const express = require('express')      // Importing express
+// Body parser is used to handle the input elements on the server 
+const bodyParser = require('body-parser')
+
 const app = express()
 
 const expressLayouts = require('express-ejs-layouts')
 
 const indexRouter = require('./routes/index')
+const authorRouter = require('./routes/authors')
 
 // Setting our view engine, in our case we are using EJS as our view engine to display HTML as output.
 app.set('view engine', 'ejs')
@@ -25,9 +29,12 @@ app.use(expressLayouts)
 // We also need to tell express where our public files(CSS, JS, images, etc.) are gonna be, refer to the 'public' folder. PUBLIC VIEWS.
 app.use(express.static('public'))
 
+// Here we are sending values through a url to our server, hence, urlencoded() is used. Then 'lomit' is used to increase the limit size that our server can accept.
+app.use(bodyParser.urlencoded({ limit: '10mb', extended:false }))
+
 const mongoose = require('mongoose')
 // mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true,  }) // This throws error
-mongoose.connect( process.env.DATABASE_URL, { useNewUrlParser: true,  })
+mongoose.connect( "mongodb://localhost:27017/library", { useNewUrlParser: true,  })
 
 // To check that we are connected to the DB or not
 const db = mongoose.connection
@@ -36,6 +43,7 @@ db.once('open', () => console.log('Connected to Mongoose'))         // This will
 
 
 app.use('/', indexRouter)
+app.use('/authors', authorRouter)
 
 // Runnig express on a port.
 app.listen(process.env.PORT || 3000)
